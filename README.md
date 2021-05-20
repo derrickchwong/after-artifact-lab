@@ -9,6 +9,13 @@ This lab focuses on artifacts (containers) after they have been created but not 
 In this step, a docker image will be pushed to the Container Repository and will be scanned for CVEs. The goal is to practice using
 policy files to either accept a CVE, or fixing the CVE so the policy no longer fails.
 
+1. Add Container Analysis notes viewer to current user:
+    ```bash
+    gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+        --member=user:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
+        --role=roles/containeranalysis.notes.viewer
+    ```
+
 1. Publish two Docker containers to GCR. Images created are "good-image" and "bad-image" representing an artifact that has one (and more) CVEs and the 'good' that has no CVEs (hopefully)
     ```bash
     gcloud builds submit
