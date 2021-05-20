@@ -43,6 +43,27 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 
     ```
 
+    > NOTE: This SHOULD fail, there are many CVEs that are not mitigated with the policy file
 
-This step will include pushing a compromised Docker image with a CVE,
+1. Run the `kritis-signer` tool against the policy (/policies/container-anaylsis-policy.yaml)
+    ```bash
+    echo "Validating GOOD image against the policy file"
+    export IMAGE="$(./scripts/get-docker-digests.sh 2)"
 
+    echo "Image Digest: ${IMAGE}"
+
+    signer -v=10 \
+        -alsologtostderr \
+        -image="${IMAGE}" \
+        -policy=policies/container-analysis-policy.yaml \
+        -vulnz_timeout=1m \
+        -mode=check-only
+
+    if [[ $? -gt 0 ]]; then
+        echo "Image vs policy did NOT pass"
+    else
+        echo "Image vs policy DID pass"
+    fi
+
+    ```
+    > NOTE: This should NOT fail, there are a few CVEs, but they are LOW and the policy file accepts these CVEs
