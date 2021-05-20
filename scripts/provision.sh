@@ -31,18 +31,11 @@ gcloud services enable \
   containerregistry.googleapis.com \
   containerscanning.googleapis.com
 
+## Set current user to have 'Container Analysis Notes Viewer'
+
 ## Create GKE instance (used for deployment of container)
 
 
 ## Create Kritis signer tool
 
 ./create-kritis.sh
-
-export IMAGE="gcr.io/cloud-marketplace/google/debian10@sha256:0642278af4db752391dfee6e91fbad1ebfca746d5ad2770706da737c5245edb9"
-
-signer -v=10 \
-      -alsologtostderr \
-      -image="${IMAGE}" \
-      -policy=policies/container-analysis-policy.yaml \
-      -vulnz_timeout=1m \
-      -mode=check-only
