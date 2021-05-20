@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-## This script builds Kritis Signer from scratch
-
-if [[ ! -d "$(go env GOPATH)/bin/signer" ]]; then
-
-    git clone https://github.com/grafeas/kritis
-    pushd kritis
-        go get -d -v ./...
-        make out/signer
-        cp out/signer ../signer
-        chmod +x ../signer
-    popd
-    mv ./signer $(go env GOPATH)/bin/signer
-    rm -rf kritis
-fi
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: "build-good"
+  args: ['build', '-f', 'Dockerfile.good', '-t', 'gcr.io/${PROJECT_ID}/good-image', '.']
+  waitFor: ['-']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/${PROJECT_ID}/good-image']
+  waitFor: ['build-good']
+- name: 'gcr.io/cloud-builders/docker'
+  id: "build-bad"
+  args: ['build', '-f', 'Dockerfile.bad', '-t', 'gcr.io/${PROJECT_ID}/bad-image', '.']
+  waitFor: ['-']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/${PROJECT_ID}/bad-image']
+  waitFor: ['build-bad']
