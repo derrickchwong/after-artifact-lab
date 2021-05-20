@@ -21,8 +21,12 @@ if [[ -z "${PROJECT_ID}" ]]; then
     exit 1
 fi
 
-gcloud config set project ${PROJECT_ID}
+if [[ -z "${ZONE}" ]]; then
+    echo "ZONE is not defined and needs to be."
+    exit 1
+fi
 
+gcloud config set project ${PROJECT_ID}
 export PROJECT_NUMBER=$(gcloud projects list --filter="${PROJECT_ID}" --format="value(PROJECT_NUMBER)")
 
 ## Enable Services
@@ -33,8 +37,18 @@ gcloud services enable \
 
 ## Set current user to have 'Container Analysis Notes Viewer'
 
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member=user:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
+    --role=roles/containeranalysis.notes.viewer
+
 ## Create GKE instance (used for deployment of container)
 
+gcloud container clusters create "dev-cluster" \
+  --project "${PROJECT_ID}" \
+  --machine-type "n1-standard-1" \
+  --zone "${ZONE}" \
+  --num-nodes "1" \
+  --async
 
 ## Create Kritis signer tool
 
