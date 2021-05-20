@@ -5,6 +5,8 @@
 main
 !main.go
 
+deploy-final.yaml
+
 ### Linux ###
 *~
 

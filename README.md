@@ -74,3 +74,55 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 
     ```
     > NOTE: This should NOT fail, there are a few CVEs, but they are LOW and the policy file accepts these CVEs
+
+
+### Step 2 - DAST (ZA Proxy)
+
+1. Build and push application to GCR
+
+    ```bash
+    gcloud builds submit
+    ```
+
+1. Set the `kubeconfig` for local `kubectl`
+
+    ```bash
+    gcloud container clusters get-credentials dev-cluster --zone ${ZONE} --project ${PROJECT_ID}
+
+    kubectl cluster-info
+    ```
+
+1. Deploy container to GKE
+
+    ```bash
+    envsubst < k8s/deploy-app.yaml > deploy-final.yaml
+
+    kubectl apply -f deploy-final.yaml
+    ```
+
+    > NOTE: This may take 3-5 minutes to start the GLBC
+
+1. Find the IP of the Load Balancer
+
+    ```bash
+    export HOST_IP=$(kubectl get services hello-world-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+    echo $HOST_IP
+    ```
+
+1. Look at the contents with CLI
+
+    ```bash
+    curl http://${HOST_IP}/
+    ```
+
+    > Output should look similar:
+
+    ```text
+    <html><head><title>Why, hello there! - </title></head><body><h1>Hi AppTeam!</h1><h3>Error accessing bucket ''</h3>Err: Bucket("").Objects: storage: bucket doesn't exist<br/><h2>Random Quote: I can eat glass and it doesn't hurt me.</h2><h2>Current Environment: </h2></body><html>
+    ```
+
+1. Run ZAProxy against the
+    ```bash
+    docker run -i owasp/zap2docker-stable zap-cli quick-scan --self-contained --start-options '-config api.disablekey=true' http://${HOST_IP}/
+    ```
