@@ -42,7 +42,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --role=roles/containeranalysis.notes.viewer
 
 # Install Kubectl (coupled to Ubuntu 2004-lts)
-snap install kubectl --classic
+snap install kubectl docker --classic
 
 ## Create GKE instance (used for deployment of container)
 
