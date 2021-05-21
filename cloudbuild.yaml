@@ -31,3 +31,6 @@ steps:
   id: "step-two"
   args: ['build', '-f', 'Dockerfile', '-t', 'gcr.io/${PROJECT_ID}/hello-world', '.']
   waitFor: ['-']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/${PROJECT_ID}/hello-world']
+  waitFor: ['step-two']
