@@ -38,11 +38,8 @@ gcloud services enable \
 ## Set current user to have 'Container Analysis Notes Viewer'
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member=user:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
+    --member=serviceaccount:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
     --role=roles/containeranalysis.notes.viewer
-
-# Install Kubectl (coupled to Ubuntu 2004-lts)
-snap install kubectl go --classic
 
 ## Create GKE instance (used for deployment of container)
 
@@ -52,7 +49,3 @@ gcloud container clusters create "dev-cluster" \
   --zone "${ZONE}" \
   --num-nodes "1" \
   --async
-
-## Create Kritis signer tool (just have it ready to download)
-
-# ./create-kritis.sh
