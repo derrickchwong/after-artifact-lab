@@ -35,12 +35,6 @@ gcloud services enable \
   containerregistry.googleapis.com \
   containerscanning.googleapis.com
 
-## Set current user to have 'Container Analysis Notes Viewer'
-
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member=serviceaccount:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
-    --role=roles/containeranalysis.notes.viewer
-
 ## Create GKE instance (used for deployment of container)
 
 gcloud container clusters create "dev-cluster" \
