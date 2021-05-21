@@ -25,6 +25,6 @@ if [[ ! -d "$(go env GOPATH)/bin/signer" ]]; then
         cp out/signer ../signer
         chmod +x ../signer
     popd
-    mv ./signer $(go env GOPATH)/bin/signer
+    mv ./signer /usr/local/bin/signer
     rm -rf kritis
 fi
