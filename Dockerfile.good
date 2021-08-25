@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Debian10 (May 5, 2021)
-FROM gcr.io/cloud-marketplace/google/debian10@sha256:0642278af4db752391dfee6e91fbad1ebfca746d5ad2770706da737c5245edb9
+# Debian10 (June 9, 2021)
+FROM gcr.io/cloud-marketplace/google/debian10@sha256:3242ff21417c7722482c2085f86f28ed4f76cde00bf880f15fc1795975bc2a81
 
 # Just so the built image is always unique
 RUN apt-get update && apt-get -y install uuid-runtime && uuidgen > /IAMUNIQUE
