@@ -27,6 +27,11 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
     ./scripts/get-docker-digests.sh
     ```
 
+1. Install Signer
+    ```bash
+    ./script/create-kritis.sh
+    ```
+
 1. Run the `kritis-signer` tool against the policy (/policies/container-anaylsis-policy.yaml)
 
     ```bash
@@ -87,7 +92,7 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 1. Set the `kubeconfig` for local `kubectl`
 
     ```bash
-    gcloud container clusters get-credentials dev-cluster --zone ${ZONE} --project ${PROJECT_ID}
+    gcloud container clusters get-credentials dev-cluster --zone us-central1-c --project ${PROJECT_ID}
 
     kubectl cluster-info
     ```
