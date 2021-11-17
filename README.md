@@ -89,6 +89,11 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
     gcloud builds submit
     ```
 
+1. Provision a GKE cluster
+    ```bash
+    ./script/provision.sh
+    ```
+    
 1. Set the `kubeconfig` for local `kubectl`
 
     ```bash
