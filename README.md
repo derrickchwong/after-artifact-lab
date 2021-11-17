@@ -92,7 +92,8 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 1. Set the `kubeconfig` for local `kubectl`
 
     ```bash
-    gcloud container clusters get-credentials dev-cluster --zone us-central1-c --project ${PROJECT_ID}
+    export ZONE=us-central1-c
+    gcloud container clusters get-credentials dev-cluster --zone ${ZONE} --project ${PROJECT_ID}
 
     kubectl cluster-info
     ```

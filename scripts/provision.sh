@@ -15,6 +15,7 @@
 # limitations under the License.
 
 ## This script provisions the infrastructure for this workshop
+export ZONE=us-central1-c
 
 if [[ -z "${PROJECT_ID}" ]]; then
     echo "PROJECT_ID is not defined and needs to be."
