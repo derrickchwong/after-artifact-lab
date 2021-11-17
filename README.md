@@ -93,8 +93,8 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
     ```bash
     ./script/provision.sh
     ```
-    
-1. Set the `kubeconfig` for local `kubectl`
+
+1. Set the `kubeconfig` for local `kubectl` (You may need to wait for 5 mins for the cluster ready)
 
     ```bash
     export ZONE=us-central1-c
@@ -113,7 +113,7 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 
     > NOTE: This may take 3-5 minutes to start the GLBC
 
-1. Find the IP of the Load Balancer
+1. Find the IP of the Load Balancer (External IP may take a min to receive)
 
     ```bash
     export HOST_IP=$(kubectl get services hello-world-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -124,7 +124,7 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 1. Look at the contents with CLI
 
     ```bash
-    curl http://${HOST_IP}/
+    curl http://${HOST_IP}:8080/
     ```
 
     > Output should look similar:
