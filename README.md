@@ -11,6 +11,7 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 
 1. Add Container Analysis notes viewer to current user:
     ```bash
+    export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
     gcloud projects add-iam-policy-binding ${PROJECT_ID} \
         --member=user:$(gcloud config list account --format "value(core.account)" 2> /dev/null) \
         --role=roles/containeranalysis.notes.viewer
@@ -135,5 +136,5 @@ policy files to either accept a CVE, or fixing the CVE so the policy no longer f
 
 1. Run ZAProxy against the
     ```bash
-    docker run -i owasp/zap2docker-stable zap-cli quick-scan --self-contained --start-options '-config api.disablekey=true' http://${HOST_IP}/
+    docker run -i owasp/zap2docker-stable zap-cli quick-scan --self-contained --start-options '-config api.disablekey=true' http://${HOST_IP}:8080/
     ```
